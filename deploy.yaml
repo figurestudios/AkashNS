@@ -1,0 +1,37 @@
+version: "2.0"
+services:
+  miner:
+    image: figureprod/akash-bot:1.0.0
+    expose:
+      - port: 3000
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    miner:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1Gi
+        storage:
+          size: 1Gi
+  placement:
+    miner:
+      attributes:
+        host: akash
+      signedBy:
+        anyOf:
+          - "akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63"
+      pricing:
+        miner:
+          denom: uakt
+          amount: 1000
+
+deployment:
+  miner:
+    miner:
+      profile: miner
+      count: 1
